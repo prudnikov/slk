@@ -1220,3 +1220,21 @@ func TestConfig_TransparentBackground(t *testing.T) {
 		t.Error("transparent_background = true read back false")
 	}
 }
+
+func TestLoadConfig_KeyMap(t *testing.T) {
+	cases := []struct {
+		name, body, want string
+	}{
+		{"unset", "", KeyMapDefault},
+		{"colemak", "[general]\nkeymap = \"colemak\"\n", KeyMapColemak},
+		{"case and spaces", "[general]\nkeymap = \" Colemak \"\n", KeyMapColemak},
+		{"unknown falls back", "[general]\nkeymap = \"dvorak\"\n", KeyMapDefault},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			if got := loadConfigString(t, c.body).General.KeyMap; got != c.want {
+				t.Errorf("keymap = %q, want %q", got, c.want)
+			}
+		})
+	}
+}

@@ -20,18 +20,18 @@ import (
 // commands, design §4). Unmapped keys — including Esc — cancel
 // silently, matching vim.
 func (a *App) handleWindowChord(msg tea.KeyMsg) tea.Cmd {
-	switch msg.String() {
+	switch a.directionKey(msg) {
 	case "s":
 		return a.splitWindow(wintree.SplitStacked)
 	case "v":
 		return a.splitWindow(wintree.SplitSideBySide)
-	case "h", "left":
+	case arrowLeft:
 		return a.navigateWindow(wintree.NavLeft)
-	case "j", "down":
+	case arrowDown:
 		return a.navigateWindow(wintree.NavDown)
-	case "k", "up":
+	case arrowUp:
 		return a.navigateWindow(wintree.NavUp)
-	case "l", "right":
+	case arrowRight:
 		return a.navigateWindow(wintree.NavRight)
 	case "w", "ctrl+w":
 		return a.cycleWindow()

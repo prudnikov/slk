@@ -199,3 +199,25 @@ func DefaultKeyMap() KeyMap {
 		ToggleFullscreen: key.NewBinding(key.WithKeys("f"), key.WithHelp("f", "toggle fullscreen for focused pane")),
 	}
 }
+
+// ColemakKeyMap is DefaultKeyMap for a Colemak keyboard. The movement
+// keys sit where h/j/k/l are on QWERTY, which on Colemak types h, n, e
+// and i. The keys those letters had move out of the way:
+//   - search next / previous match: n / N become k / K
+//   - insert mode: i becomes l
+//   - author's profile: K becomes P, since K is now previous match
+//
+// Every other binding is the default one.
+func ColemakKeyMap() KeyMap {
+	keyMap := DefaultKeyMap()
+	keyMap.Up = key.NewBinding(key.WithKeys("e", "up"), key.WithHelp("e/up", "up"))
+	keyMap.Down = key.NewBinding(key.WithKeys("n", "down"), key.WithHelp("n/down", "down"))
+	keyMap.Left = key.NewBinding(key.WithKeys("h", "left"), key.WithHelp("h/left", "left"))
+	keyMap.Right = key.NewBinding(key.WithKeys("i", "right"), key.WithHelp("i/right", "right"))
+	keyMap.SearchNext = key.NewBinding(key.WithKeys("k"), key.WithHelp("k", "next match"))
+	keyMap.SearchPrev = key.NewBinding(key.WithKeys("K"), key.WithHelp("K", "prev match"))
+	keyMap.InsertMode = key.NewBinding(key.WithKeys("l"), key.WithHelp("l", "insert mode"))
+	keyMap.UserProfile = key.NewBinding(key.WithKeys("P"), key.WithHelp("P", "show author's profile"))
+	keyMap.WinNavigate = key.NewBinding(key.WithHelp("ctrl+w h/n/e/i", "focus window in direction"))
+	return keyMap
+}

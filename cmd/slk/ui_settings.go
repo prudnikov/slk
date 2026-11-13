@@ -41,6 +41,17 @@ type uiSettings struct {
 	StayInInsertAfterSend bool
 	// ReplyAvatars is [appearance] reply_avatars (default off).
 	ReplyAvatars bool
+	// KeyMap is [general] keymap, the key bindings preset. Empty means
+	// the default bindings.
+	KeyMap string
+}
+
+// keyMapForPreset is the key bindings for a [general] keymap value.
+func keyMapForPreset(preset string) ui.KeyMap {
+	if preset == config.KeyMapColemak {
+		return ui.ColemakKeyMap()
+	}
+	return ui.DefaultKeyMap()
 }
 
 // sidebarStyleFromConfig is the [sidebar] look and behaviour switches.
@@ -74,6 +85,7 @@ func uiSettingsFromConfig(cfg config.Config) uiSettings {
 		StayInInsertAfterSend: cfg.Compose.StayInInsertAfterSend,
 		ReplyAvatars:          cfg.Appearance.ReplyAvatars,
 		HideDeactivatedUsers:  cfg.General.HideDeactivatedUsers,
+		KeyMap:                cfg.General.KeyMap,
 	}
 }
 
@@ -105,4 +117,5 @@ func applyUISettings(app *ui.App, s uiSettings) {
 	app.SetThemeName(s.Theme)
 	app.SetStayInInsertAfterSend(s.StayInInsertAfterSend)
 	app.SetReplyAvatars(s.ReplyAvatars)
+	app.SetKeyMap(keyMapForPreset(s.KeyMap))
 }

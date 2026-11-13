@@ -10,7 +10,7 @@ import (
 )
 
 func handleReactionsViewMode(a *App, msg tea.KeyMsg) tea.Cmd {
-	keyStr := msg.String()
+	keyStr := a.directionKey(msg)
 	switch msg.Key().Code {
 	case tea.KeyEscape:
 		keyStr = "esc"

@@ -141,6 +141,9 @@ func (m Model) VisibleEntries() []Entry {
 //   - Otherwise: j/k/arrows scroll, / enters search mode, esc/q/? close the modal.
 //
 // Returns the model unchanged for chaining clarity; mutations happen in place.
+// Searching reports whether the / search input is taking keys.
+func (m *Model) Searching() bool { return m.searching }
+
 func (m *Model) HandleKey(keyStr string) {
 	if m.searching {
 		m.handleSearchKey(keyStr)
