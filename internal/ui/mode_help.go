@@ -15,6 +15,10 @@ import (
 
 func handleHelpMode(a *App, msg tea.KeyMsg) tea.Cmd {
 	keyStr := msg.String()
+	// While searching, letters are the query, not movement.
+	if !a.help.Searching() {
+		keyStr = a.directionKey(msg)
+	}
 	switch msg.Key().Code {
 	case tea.KeyEnter:
 		keyStr = "enter"

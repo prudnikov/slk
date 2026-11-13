@@ -91,7 +91,17 @@ type General struct {
 	// Load decodes over Default(), which sets it to true, so an explicit
 	// false reads back correctly.
 	HideDeactivatedUsers bool `toml:"hide_deactivated_users"`
+	// KeyMap picks the key bindings preset: KeyMapDefault (vim's
+	// h/j/k/l) or KeyMapColemak (the same keys where they sit on a
+	// Colemak keyboard: h/n/e/i). Clamped to those two at load time.
+	KeyMap string `toml:"keymap"`
 }
+
+// The keymap presets [general] keymap accepts.
+const (
+	KeyMapDefault = "default"
+	KeyMapColemak = "colemak"
+)
 
 type Appearance struct {
 	Theme string `toml:"theme"`
@@ -285,6 +295,7 @@ func Default() Config {
 		General: General{
 			DownloadDir:          "~/Downloads",
 			HideDeactivatedUsers: true,
+			KeyMap:               KeyMapDefault,
 		},
 		Appearance: Appearance{
 			Theme:           "nord",
@@ -360,6 +371,15 @@ func Load(path string) (Config, error) {
 	// (unset) and any unrecognized value fall back to "on".
 	if cfg.Appearance.EmojiImages != "on" && cfg.Appearance.EmojiImages != "off" {
 		cfg.Appearance.EmojiImages = "on"
+	}
+
+	// Clamp KeyMap to the known presets, ignoring case and spaces.
+	// Empty (unset) and any unrecognized value fall back to the default.
+	switch preset := strings.ToLower(strings.TrimSpace(cfg.General.KeyMap)); preset {
+	case KeyMapDefault, KeyMapColemak:
+		cfg.General.KeyMap = preset
+	default:
+		cfg.General.KeyMap = KeyMapDefault
 	}
 
 	// Clamp KittyPlacement to {"auto", "native", "emulated"}, ignoring

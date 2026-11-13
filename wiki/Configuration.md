@@ -16,6 +16,8 @@ hide_deactivated_users = true   # hide deactivated people, as the Slack desktop
                                 # they are not offered in the channel finder,
                                 # the new-message picker or @ / # autocomplete.
                                 # Set false to show them again. See below.
+keymap = "default"              # key bindings preset: "default" (h/j/k/l) or
+                                # "colemak" (h/n/e/i). See below.
 
 [appearance]
 theme = "dracula"
@@ -181,6 +183,26 @@ accent = "#50C878"
 background = "#1A1A2E"
 text = "#E0E0E0"
 ```
+
+## Keymap presets
+
+`[general] keymap` picks the key bindings. `"default"` is vim's `h/j/k/l`.
+`"colemak"` puts the movement keys where `h/j/k/l` sit on a QWERTY keyboard,
+which on Colemak is `h/n/e/i`. The keys those letters had move out of the way:
+
+| Action | default | colemak |
+|---|---|---|
+| up / down / left / right | `k` / `j` / `h` / `l` | `e` / `n` / `h` / `i` |
+| next / previous search match | `n` / `N` | `k` / `K` |
+| insert mode | `i` | `l` |
+| author's profile | `K` | `P` |
+| focus window in direction | `Ctrl+w h/j/k/l` | `Ctrl+w h/n/e/i` |
+
+The new keys also move through the help overlay, the reactions list, the link
+and file picker, image preview (left / right) and confirm-prompt buttons. The
+status and theme menus have a type-to-filter box, so letters there filter;
+move in them with the arrow keys or `Ctrl+n` / `Ctrl+p`. Everything else
+keeps its default key. `?` always lists the keys in effect.
 
 ## Deactivated users
 

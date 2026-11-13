@@ -1213,7 +1213,7 @@ func (a *App) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// previewLoadedMsg arm that swaps the cycled image into place.
 	if a.preview.Active() {
 		if km, ok := msg.(tea.KeyMsg); ok {
-			switch km.String() {
+			switch a.directionKey(km) {
 			case "esc", "q":
 				a.preview.Close()
 				return a, nil
@@ -1221,12 +1221,12 @@ func (a *App) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				path := a.preview.Overlay().Path()
 				a.preview.Close()
 				return a, a.openInSystemViewerCmd(path)
-			case "h", "left":
+			case arrowLeft:
 				if a.preview.Overlay().SiblingCount() > 1 {
 					return a, a.cycleImagePreviewCmd(a.preview.Channel(), a.preview.TS(), a.preview.AttIdx(), -1)
 				}
 				return a, nil
-			case "l", "right":
+			case arrowRight:
 				if a.preview.Overlay().SiblingCount() > 1 {
 					return a, a.cycleImagePreviewCmd(a.preview.Channel(), a.preview.TS(), a.preview.AttIdx(), +1)
 				}

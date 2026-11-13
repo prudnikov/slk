@@ -12,7 +12,7 @@ import (
 )
 
 func handleLinkPickerMode(a *App, msg tea.KeyMsg) tea.Cmd {
-	item, chosen := a.linkPicker.HandleKey(msg.String())
+	item, chosen := a.linkPicker.HandleKey(a.directionKey(msg))
 	if chosen {
 		// Read what it was choosing first: leaving the mode clears it on
 		// every commit, links included (#194).
